@@ -7,10 +7,14 @@ import json
 
 app = cors(quart.Quart(__name__))
 
-@app.route("/search/youtube/<string:youtube_url>", methods=["GET"])
-async def search_youtube(youtube_url):
+@app.route("/search/youtube/transcript", methods=["POST"])
+async def search_youtube():
     """Search youtube for the given query."""
+    data = await request.get_json()
+    youtube_url = data["url"]
     transcript = get_transcript(youtube_url)
+    if transcript is None:
+        return json.dumps({"error": "Invalid YouTube URL."})
     return json.dumps({"transcript": transcript})
 
 def youtube_service():
