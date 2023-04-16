@@ -1,0 +1,18 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "YouTube Search and Summarize.",
+    "name_for_model": "youtube_search_and_summarize",
+    "description_for_human": "A plugin that can let chatGPT search for and summarize YouTube videos.",
+    "description_for_model": "A plugin to summarize YouTube videos if given a youtube url.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "PLUGIN_HOSTNAME/search/youtube/openapi.yaml",
+      "is_user_authenticated": false
+    },
+    "logo_url": "PLUGIN_HOSTNAME/search/youtube/logo.png",
+    "contact_email": "no_contact_yet@example.com",
+    "legal_info_url": "https://www.asteres-technologies.com"
+  }

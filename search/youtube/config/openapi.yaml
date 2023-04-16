@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: YouTube Search and Summarize
+  description: A plugin that allows chatGPT to search YouTube video content if given a youtube url.
+  version: 'v1'
+servers:
+  - url: PLUGIN_HOSTNAME
+paths:
+  /search/youtube/transcript:
+    post:
+      operationId: getTranscript
+      summary: Get the transcript of a youtube video for summarization.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+              required:
+                - url
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              scehma:
+                $ref: '#/components/schemas/getTranscriptResponse'
+
+components:
+  schemas:
+    getTranscriptResponse:
+      type: object
+      properties:
+        transcript:
+          type: string
+          description: The transcript of the youtube video.
