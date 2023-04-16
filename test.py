@@ -1,15 +1,9 @@
-#Test youtube transcript API
-import youtube_transcript_api as yta
-from search.utils import get_tokens
+from search.youtube.routes import youtube_service
 
-#Get transcript
-transcript = yta.YouTubeTranscriptApi.get_transcript("ZkgFaC-Jug4")
+"""
+YOUTUBE_URL = "https://www.youtube.com/watch?v=-Vy12e0LjX4&ab_channel=BabishCulinaryUniverse"
+transcript = get_transcript(YOUTUBE_URL)
+print(transcript)
+"""
 
-#Scrape text
-text = ""
-for t in transcript:
-    text += t['text'] + " "
-
-#Get token count
-tokens, count = get_tokens(text)
-print(count)
+youtube_service()
