@@ -1,7 +1,9 @@
+#TODO: Replace youtube_transcript_api with youtubeseachpython.
 import youtube_transcript_api as yta
+from youtubesearchpython import VideosSearch
 from search.utils import get_tokens, get_youtube_id
 
-def get_transcript(youtube_url, chunk_size_seconds=40, with_times=True):
+async def get_transcript(youtube_url, chunk_size_seconds=40, with_times=True):
     #Get transcript
     id = get_youtube_id(youtube_url)
     transcript = yta.YouTubeTranscriptApi.get_transcript(id)
@@ -43,3 +45,8 @@ def get_transcript(youtube_url, chunk_size_seconds=40, with_times=True):
         full_transcript += f"{chunk_times[i][0]}-{chunk_times[i][1]}: {chunks[i]}\n"
 
     return full_transcript
+
+#TODO: Add a way to get the next page of results.
+def search_videos(search, limit=10):
+    videosSearch = VideosSearch(search, limit = limit)
+    return videosSearch.result()["result"]
