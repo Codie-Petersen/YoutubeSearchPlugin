@@ -1,9 +1,16 @@
 #TODO: Replace youtube_transcript_api with youtubeseachpython.
 import youtube_transcript_api as yta
-from youtubesearchpython import VideosSearch
-from search.utils import get_tokens, get_youtube_id
+from youtubesearchpython import VideosSearch, Video, ResultMode
+from search.utils import get_tokens, get_youtube_id, create_description
+import time
 
 async def get_transcript(youtube_url, chunk_size_seconds=40, with_times=True):
+    '''
+    Returns the transcript of a YouTube video. 
+    youtube_url: The URL of the YouTube video.
+    chunk_size_seconds: The maximum number of seconds a chunk can be.
+    with_times: Whether or not to include the times of each chunk.
+    '''
     #Get transcript
     id = get_youtube_id(youtube_url)
     transcript = yta.YouTubeTranscriptApi.get_transcript(id)
@@ -22,7 +29,8 @@ async def get_transcript(youtube_url, chunk_size_seconds=40, with_times=True):
         else:
             chunk += " " + text
             times.append(line["start"] + line["duration"])
-            if len(chunk.split(" ")) > chunk_size_seconds or text.endswith(".") or text.endswith("?") or text.endswith("!") or text.endswith("\""):
+            if len(chunk.split(" ")) > chunk_size_seconds or text.endswith(".") or \
+                    text.endswith("?") or text.endswith("!") or text.endswith("\""):
                 times.sort()
                 chunks.append(chunk)
                 chunk_times.append([round(times[0]), round(times[-1])])
@@ -47,6 +55,30 @@ async def get_transcript(youtube_url, chunk_size_seconds=40, with_times=True):
     return full_transcript
 
 #TODO: Add a way to get the next page of results.
-def search_videos(search, limit=10):
-    videosSearch = VideosSearch(search, limit = limit)
-    return videosSearch.result()["result"]
+def search_videos(search, limit=5, region="US", language="en"):
+    '''
+    Searches YouTube for videos and returns a list of dictionaries containing
+    the title, description, views, length, thumbnail, and url of each video.
+    search: The search query.
+    limit: The maximum number of videos to return. (Keep around 5 because urls chew up tokens.)
+    region: The ISO 3166-1 alpha-2 country code of the region to search in.
+    language: The ISO 639-1 language code of the language to search in.
+    '''
+    search = VideosSearch(search, limit = limit, region=region, language=language)
+    video_list = []
+    for result in search.result()["result"]:
+        try:
+            description = Video.get(result["id"], mode=ResultMode.json)["description"]
+        except:
+            description = create_description(result["descriptionSnippet"])
+
+        video_list.append({
+            "title": result["title"],
+            "description": description,
+            "views": result["viewCount"]["short"],
+            "length": result["duration"],
+            "published": result["publishedTime"],
+            "thumbnail": result["thumbnails"][0]["url"],
+            "url": result["link"]
+        })
+    return video_list

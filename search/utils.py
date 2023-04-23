@@ -6,6 +6,10 @@ import re
 ENCODING_MODEL = "text-davinci-003"
 
 def get_tokens(text: str) -> list and int:
+    '''
+    Returns a list of tokens and the number of tokens in the text.
+    text: The text to tokenize.
+    '''
     encoder = tk.encoding_for_model(ENCODING_MODEL)
     tokens = encoder.encode(text)
     return tokens, len(tokens)
@@ -13,8 +17,10 @@ def get_tokens(text: str) -> list and int:
 #Get the YouTube ID from a YouTube URL.
 #TODO: Add support for shortened YouTube URLs and check if the URL is valid.
 def get_youtube_id(url):
-    """Extracts the YouTube video ID from a URL."""
-
+    """
+    Extracts the YouTube video ID from a URL.
+    url: The URL of the YouTube video.
+    """
     #Check URL validity first.
     parsed_url = urlparse(url)
     if all([parsed_url.scheme, parsed_url.netloc]):
@@ -40,3 +46,14 @@ def get_youtube_id(url):
     # If no match is found, return None
     else:
         return None
+
+def create_description(snippet):
+    '''
+    Youtube returns a description snippet which is a list of text with formatting. This function
+    creates an unformmated description from the snippet.
+    snippet: The descriptionSnippet from the video search result.
+    '''
+    description = ""
+    for chunk in snippet:
+        description += chunk["text"]
+    return description

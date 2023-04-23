@@ -1,5 +1,5 @@
 from search.youtube.routes import youtube_service
-from youtubesearchpython import VideosSearch
+from search.youtube.service import search_videos
 
 YOUTUBE_URL = "https://www.youtube.com/watch?v=-Vy12e0LjX4&ab_channel=BabishCulinaryUniverse"
 
@@ -7,11 +7,10 @@ YOUTUBE_URL = "https://www.youtube.com/watch?v=-Vy12e0LjX4&ab_channel=BabishCuli
 videosSearch = None
 while True:
     search = input("Search: ")
-    if search == "/next" and videosSearch is not None:
-        videosSearch.next()
-    else:
-        videosSearch = VideosSearch(search, limit = 10)
-    for result in videosSearch.result()["result"]:
-        print(f"### {result['title']}")
-        print(f"[![img]({result['thumbnails'][0]['url']})]({result['link']})")
+    videos = search_videos(search)
+    for video in videos:
+        print(f"### {video['title']}")
+        print(f"[![img]({video['thumbnail']})]({video['url']})")
+        print(f"**Views:** {video['views']} | **Duration:** {video['length']} | **Released:** {video['published']}")
+        print(f"**Description:** {video['description']}")
         
