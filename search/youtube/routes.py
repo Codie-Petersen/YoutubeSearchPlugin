@@ -109,7 +109,7 @@ def add_signal_handlers(loop):
 
 def youtube_service(host="0.0.0.0", port=5000):
     """
-    A YouTube search search and transcript service.
+    A YouTube search and transcript service.
     host: The host to run the service on.
     port: The port to run the service on.
     
