@@ -28,6 +28,28 @@ paths:
             application/json:
               scehma:
                 $ref: '#/components/schemas/getTranscriptResponse'
+  /search/youtube/query:
+    post:
+      operationId: searchVideos
+      summary: Search for a list of videos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+              required:
+                - query
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              scehma:
+                $ref: '#/components/schemas/getSearchVideosResponse'
 
 components:
   schemas:
@@ -37,3 +59,9 @@ components:
         transcript:
           type: string
           description: The transcript of the youtube video.
+    getSearchVideosResponse:
+      type: object
+      properties:
+        videos:
+          type: string
+          description: A list of videos in json format.

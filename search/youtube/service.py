@@ -13,7 +13,11 @@ async def get_transcript(youtube_url, chunk_size_seconds=40, with_times=True):
     '''
     #Get transcript
     id = get_youtube_id(youtube_url)
-    transcript = yta.YouTubeTranscriptApi.get_transcript(id)
+
+    try:
+        transcript = yta.YouTubeTranscriptApi.get_transcript(id)
+    except yta.TranscriptsDisabled:
+        return "Transcripts are disabled for this video."
 
     chunk = ""
     chunks = []
@@ -55,7 +59,7 @@ async def get_transcript(youtube_url, chunk_size_seconds=40, with_times=True):
     return full_transcript
 
 #TODO: Add a way to get the next page of results.
-def search_videos(search, limit=5, region="US", language="en"):
+async def search_videos(search, limit=5, region="US", language="en", video=None):
     '''
     Searches YouTube for videos and returns a list of dictionaries containing
     the title, description, views, length, thumbnail, and url of each video.
@@ -64,9 +68,13 @@ def search_videos(search, limit=5, region="US", language="en"):
     region: The ISO 3166-1 alpha-2 country code of the region to search in.
     language: The ISO 639-1 language code of the language to search in.
     '''
-    search = VideosSearch(search, limit = limit, region=region, language=language)
+    if video == None:
+        video = VideosSearch(search, limit=limit, region=region, language=language)
+    else:
+        video.next()
+
     video_list = []
-    for result in search.result()["result"]:
+    for result in video.result()["result"]:
         try:
             description = Video.get(result["id"], mode=ResultMode.json)["description"]
         except:
@@ -78,7 +86,7 @@ def search_videos(search, limit=5, region="US", language="en"):
             "views": result["viewCount"]["short"],
             "length": result["duration"],
             "published": result["publishedTime"],
-            "thumbnail": result["thumbnails"][0]["url"],
+            "thumbnail": result["thumbnails"][0]["url"].split("?")[0],
             "url": result["link"]
         })
-    return video_list
+    return video_list, video
