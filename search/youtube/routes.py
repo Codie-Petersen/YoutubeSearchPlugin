@@ -18,8 +18,6 @@ active_queries = {}
 
 app = cors(quart.Quart(__name__))
 
-#TODO: Add a way to get the next page of results.
-
 @app.route(f"{BASE_ROUTE}/transcript", methods=["POST"])
 async def get_video_transcript():
     """ 
@@ -38,31 +36,68 @@ async def get_video_transcript():
     
     return json.dumps({"transcript": transcript})
 
+
 @app.route(f"{BASE_ROUTE}/query", methods=["POST"])
-#TODO: Add region and language parameters.
 async def query():
     """
     Searches YouTube for videos and returns a list of dictionaries containing
     information about each video as well as a query_id that can be used to get
     the next page of results.
     query: The search query.
-    query_id: A UID of the query session.
+    iso_3166-1_alpha-2_code: The ISO 3166-1 alpha-2 country code of the region to search in.
+    iso_639-1_code: The ISO 639-1 language code of the language to search in.
     """
     data = await quart.request.get_json()
     search = data["query"]
+    query_id = str(uuid.uuid4())
+    language = "en"
+    region = "US"
+
+    if "iso_3166-1_alpha-2_code" in data:
+        region = data["iso_3166-1_alpha-2_code"]
+    if "iso_639-1_code" in data:
+        language = data["iso_639-1_code"]
+
     try:
-        query_id = str(uuid.uuid4())
-        videos, videoSearch = await asyncio.wait_for(search_videos(search), timeout=60)
+        videos, videoSearch = await asyncio.wait_for(
+            search_videos(search, region=region, language=language), 
+            timeout=60
+        )
+
         active_queries[query_id] = videoSearch
         return json.dumps({"videos": videos, "query_id": query_id})
     except asyncio.TimeoutError:
-        return json.dumps({"error": "Timeout while searching videos."})
+        return json.dumps({"error": "Timeout while searching for videos."})
+    except Exception as e:
+        return json.dumps({"error": "A server error occured while searching for videos."})
+
+
+@app.route(f"{BASE_ROUTE}/next", methods=["POST"])
+async def next_page():
+    """
+    Get the next page of results for a search query.
+    query_id: The query_id returned by the /search/youtube/query route.
+    """
+    data = await quart.request.get_json()
+    query_id = data["query_id"]
+    if query_id not in active_queries:
+        return json.dumps({"error": "Invalid query_id."})
+    try:
+        active_queries[query_id].next()
+        videos = active_queries[query_id].result()["result"]
+        return json.dumps({"videos": videos, "query_id": query_id})
+    except asyncio.TimeoutError:
+        return json.dumps({"error": "Timeout while getting next page of results."})
+    except Exception as e:
+        return json.dumps({"error": "A server error occured while getting next page of results.", "trace": str(e)})
+
 
 @app.route(f"{BASE_ROUTE}/logo.png", methods=["GET"])
 async def plugin_logo():
     """Return the app logo."""
     filename = f"{CONFIG_ROUTE}/logo.png"
     return await quart.send_file(filename, mimetype="image/png")
+
 
 @app.route(f"/.well-known/ai-plugin.json", methods=["GET"])
 async def plugin_manifest():
@@ -74,6 +109,7 @@ async def plugin_manifest():
         text = text.replace("PLUGIN_HOSTNAME", f"http://{host}")
         return quart.Response(text, mimetype="application/json")
 
+
 @app.route(f"{BASE_ROUTE}/openapi.yaml", methods=["GET"])
 async def openapi_specification():
     """Return the OpenAPI specification."""
@@ -83,6 +119,7 @@ async def openapi_specification():
         text = file.read()
         text = text.replace("PLUGIN_HOSTNAME", f"http://{host}")
         return quart.Response(text, mimetype="text/yaml")
+
 
 @app.route(f"{BASE_ROUTE}/ping", methods=["GET"])
 async def ping():
@@ -117,9 +154,12 @@ def youtube_service(host="0.0.0.0", port=5000):
     /search/youtube/transcript
         Get the raw transcript of a YouTube video.
 
-    /search/youtube/search
+    /search/youtube/query
         Searches YouTube for videos and returns a list of dictionaries containing
         video information.
+    
+    /search/youtube/next
+        Get the next page of results for a search query.
 
     /search/youtube/logo.png
         Retreive the app logo.

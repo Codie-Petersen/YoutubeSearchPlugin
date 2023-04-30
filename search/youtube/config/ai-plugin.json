@@ -3,7 +3,7 @@
     "name_for_human": "YouTube Search and Summarize.",
     "name_for_model": "youtube",
     "description_for_human": "A plugin that can let chatGPT search for and summarize YouTube videos.",
-    "description_for_model": "A plugin to search for YouTube videos or get the transcripts for if given a url.",
+    "description_for_model": "A plugin to search for YouTube videos or get the transcripts for a video if given a url.",
     "auth": {
       "type": "none"
     },

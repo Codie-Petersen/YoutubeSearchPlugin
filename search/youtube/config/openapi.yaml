@@ -41,6 +41,10 @@ paths:
               properties:
                 query:
                   type: string
+                iso_3166-1_alpha-2_code:
+                  type: string
+                iso_639-1_code:
+                  type: string
               required:
                 - query
       responses:
@@ -50,6 +54,28 @@ paths:
             application/json:
               scehma:
                 $ref: '#/components/schemas/getSearchVideosResponse'
+  /search/youtube/next:
+      post:
+        operationId: nextPageOfVideos
+        summary: Get the next page of results using the query_id of the previous search.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  query_id:
+                    type: string
+                required:
+                  - query_id
+        responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                scehma:
+                  $ref: '#/components/schemas/getNextPageResponse'
 
 components:
   schemas:
@@ -65,3 +91,15 @@ components:
         videos:
           type: string
           description: A list of videos in json format.
+        query_id:
+          type: string
+          description: The query id of the search that the user can use to get the next page of results.
+    getNextPageResponse:
+      type: object
+      properties:
+        videos:
+          type: string
+          description: A list of videos in json format.
+        query_id:
+          type: string
+          description: The query id of the search that the user can use to get the next page of results.
