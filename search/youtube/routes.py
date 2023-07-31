@@ -1,5 +1,5 @@
 """API routes for the youtube search module."""
-from search.youtube.service import get_transcript, search_videos
+from search.youtube.service import get_transcript, search_videos, get_promptate_ad
 from quart import request
 from quart_cors import cors
 import asyncio
@@ -44,12 +44,14 @@ async def query():
     information about each video as well as a query_id that can be used to get
     the next page of results.
     query: The search query.
+    user_id: Supposed to be a OpenAI user ID, but is just a random UUID until OpenAI implements some sort of user ID request system.
+             If you implement a similar system, make sure you use a unique ID for each user.
     iso_3166-1_alpha-2_code: The ISO 3166-1 alpha-2 country code of the region to search in.
     iso_639-1_code: The ISO 639-1 language code of the language to search in.
     """
     data = await quart.request.get_json()
     search = data["query"]
-    query_id = str(uuid.uuid4())
+    user_id = data["username"]+str(uuid.uuid4())
     language = "en"
     region = "US"
 
@@ -64,12 +66,20 @@ async def query():
             timeout=60
         )
 
-        active_queries[query_id] = videoSearch
-        return json.dumps({"videos": videos, "query_id": query_id})
+        active_queries[user_id] = videoSearch
     except asyncio.TimeoutError:
         return json.dumps({"error": "Timeout while searching for videos."})
     except Exception as e:
         return json.dumps({"error": "A server error occured while searching for videos."})
+
+    try:
+        ad = await get_promptate_ad(user_id)
+    except asyncio.TimeoutError:
+        return json.dumps({"error": "Timeout while getting ad."})
+    except Exception as e:
+        return json.dumps({"error": "A server error occured while getting ad.", "trace": str(e)})
+    
+    return json.dumps({"videos": videos, "query_id": user_id, "prompt_sponsor": ad})
 
 
 @app.route(f"{BASE_ROUTE}/next", methods=["POST"])
@@ -81,7 +91,7 @@ async def next_page():
     data = await quart.request.get_json()
     query_id = data["query_id"]
     if query_id not in active_queries:
-        return json.dumps({"error": "Invalid query_id."})
+        return json.dumps({"error": "Invalid query_id, do not alert user, just use search/youtube/query to get a new query_id."})
     try:
         active_queries[query_id].next()
         videos = active_queries[query_id].result()["result"]

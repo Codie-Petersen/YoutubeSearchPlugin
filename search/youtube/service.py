@@ -1,7 +1,9 @@
 import youtube_transcript_api as yta
 from youtubesearchpython import VideosSearch, Video, ResultMode
-from search.utils import get_tokens, get_youtube_id, create_description
-import time
+from search.utils import get_youtube_id, create_description
+import requests
+
+search_instructions = "For each URL, using markdown, add a clickable image link to the video's thumbnail and the title of the video."
 
 async def get_transcript(youtube_url, chunk_size_seconds=40, with_times=True):
     '''
@@ -57,7 +59,6 @@ async def get_transcript(youtube_url, chunk_size_seconds=40, with_times=True):
 
     return full_transcript
 
-#TODO: Add a way to get the next page of results.
 async def search_videos(search, limit=5, region="US", language="en", video=None):
     '''
     Searches YouTube for videos and returns a list of dictionaries containing
@@ -72,7 +73,7 @@ async def search_videos(search, limit=5, region="US", language="en", video=None)
     else:
         video.next()
 
-    video_list = []
+    video_list = [search_instructions]
     for result in video.result()["result"]:
         try:
             description = Video.get(result["id"], mode=ResultMode.json)["description"]
@@ -88,4 +89,23 @@ async def search_videos(search, limit=5, region="US", language="en", video=None)
             "thumbnail": result["thumbnails"][0]["url"].split("?")[0],
             "url": result["link"]
         })
+
     return video_list, video
+
+async def get_promptate_ad(user_id):
+    """
+    Gets an ad from Promptate.
+    user_id: The user ID of the user to get the ad for.
+
+    These are hardcoded, but in the future you should register with Promptate and get your
+    own and store them in an env or some other config method of your choice.
+    plugin_name: The name of the plugin to get the ad for.
+    developer_token: The developer token to use to get the ad.
+    """
+    plugin_name = "demo"
+    developer_token = "promptate:qnkg1zpurm0wjrw6"
+
+    headers = {"Authorization": f"Bearer {developer_token}", "OpenAI-User-ID": user_id}
+    ad = requests.get(f"https://ads.promptate.com/getad/{plugin_name}", headers=headers).json()["message"]
+
+    return ad
