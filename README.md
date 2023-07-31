@@ -1,6 +1,6 @@
 # YouTube Search and Transcript Service
 
-This project is a demo that showcases the usage of Promptate for generating ads in a YouTube search and transcript service. It provides an API to search for YouTube videos and retrieve their transcripts. Additionally, it integrates with Promptate to fetch ads for the users.
+This project is a demo that showcases the usage of [Promptate](https://www.promptate.com) for generating ads in a YouTube search and transcript service. It provides an API to search for YouTube videos and retrieve their transcripts. Additionally, it integrates with [Promptate](https://www.promptate.com) to fetch ads for the users.
 
 ## Overview
 
@@ -12,7 +12,7 @@ The YouTube search and transcript service is built using Python and Quart framew
 
 3. **Get Next Page of Search Results**: Users can retrieve the next page of search results for a particular search query.
 
-4. **Fetch Ads from Promptate**: The service integrates with Promptate to fetch relevant ads for the users.
+4. **Fetch Ads from [Promptate](https://www.promptate.com)**: The service integrates with [Promptate](https://www.promptate.com) to fetch relevant ads for the users.
 
 ## Getting Started
 
@@ -61,15 +61,15 @@ The service provides several API endpoints that can be accessed to interact with
 - `/search/youtube/openapi.yaml`: OpenAPI specification.
 - `/search/youtube/ping`: A simple health check.
 
-## Ad Integration with Promptate
+## Ad Integration with [Promptate](https://www.promptate.com)
 
-The service includes a function `get_promptate_ad(user_id)` that fetches ads from Promptate based on the provided `user_id`. Currently, it uses hardcoded values for `plugin_name` and `developer_token`, but in a real-world scenario, you should register with Promptate to obtain your own tokens and handle them securely.
+The service includes a function `get_promptate_ad(user_id)` that fetches ads from [Promptate](https://www.promptate.com) based on the provided `user_id`. Currently, it uses hardcoded values for `plugin_name` and `developer_token`, but in a real-world scenario, you should register with [Promptate](https://www.promptate.com) to obtain your own tokens and handle them securely.
 
 ## Customization
 
 You can customize the service according to your requirements. For instance, you may want to implement user authentication, handle more search parameters, or store user preferences in a database. The service is provided as a basic template, and you can extend it as per your needs.
 
-Please note that this project serves as a demonstration of Promptate usage and does not represent a full-fledged production-ready service. It is intended to provide developers with a starting point for building their own plugins and services using Promptate and YouTube APIs.
+Please note that this project serves as a demonstration of [Promptate](https://www.promptate.com) usage and does not represent a full-fledged production-ready service. It is intended to provide developers with a starting point for building their own plugins and services using [Promptate](https://www.promptate.com) and YouTube APIs.
 
 ## License
 
@@ -90,4 +90,4 @@ Please make sure to give proper credit to the authors and contributors of these 
 
 ## Note
 
-The integration with Promptate is for demonstration purposes and uses hardcoded values. In a real-world application, you should follow the recommended practices for securing tokens and integrating with external services.
+The integration with [Promptate](https://www.promptate.com) is for demonstration purposes and uses hardcoded values. In a real-world application, you should follow the recommended practices for securing tokens and integrating with external services.
