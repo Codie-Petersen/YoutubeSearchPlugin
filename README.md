@@ -1,10 +1,10 @@
-# YouTube Search and Transcript Service
+# YouTube Search and Summarize
 
-This project is a demo that showcases the usage of [Promptate](https://www.promptate.com) for generating ads in a YouTube search and transcript service. It provides an API to search for YouTube videos and retrieve their transcripts. Additionally, it integrates with [Promptate](https://www.promptate.com) to fetch ads for the users.
+This project is a demo that showcases the usage of [Promptate](https://www.promptate.com) for generating ads in a YouTube search and summarize OpenAI Plugin. It provides an API to search for YouTube videos and retrieve their transcripts. Additionally, it integrates with [Promptate](https://www.promptate.com) to fetch ads for the users.
 
 ## Overview
 
-The YouTube search and transcript service is built using Python and Quart framework for asynchronous web serving. The service allows users to perform the following actions:
+The YouTube search and summarize plugin is built using Python and Quart framework for asynchronous web serving. The service allows users to perform the following actions:
 
 1. **Search for YouTube Videos**: Users can perform a search query to find videos on YouTube.
 
@@ -34,7 +34,7 @@ To run the service on your local machine, follow these steps:
 
 ## API Endpoints
 
-The service provides several API endpoints that can be accessed to interact with the YouTube search and transcript functionality. Below are the available endpoints:
+The service provides several API endpoints that can be accessed to interact with the YouTube search and summarize functionality. Below are the available endpoints:
 
 ### Get Video Transcript
 
@@ -80,7 +80,7 @@ This project is licensed under the [MIT License](LICENSE). Feel free to modify a
 This project uses the following third-party libraries:
 
 - `youtube-transcript-api`: A Python library to fetch YouTube video transcripts.
-- `youtube_search_python`: A Python library to perform YouTube video searches.
+- `youtube-search-python`: A Python library to perform YouTube video searches.
 - `requests`: A Python library to make HTTP requests.
 - `Quart`: A Python asynchronous web framework.
 - `Quart-CORS`: A Quart extension for handling CORS.
