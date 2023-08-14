@@ -1,6 +1,6 @@
 # YouTube Search and Summarize
 
-This project is a demo that showcases the usage of [Promptate](https://www.promptate.com) for generating ads in a YouTube search and summarize OpenAI Plugin. It provides an API to search for YouTube videos and retrieve their transcripts. Additionally, it integrates with [Promptate](https://www.promptate.com) to fetch ads for the users.
+This is a project of mine that I am now using to showcase the usage of [Promptate](https://www.promptate.com) for generating ads in a YouTube search and summarize OpenAI Plugin. It provides an API to search for YouTube videos and retrieve their transcripts. It fetches ads from [Promptate](https://www.promptate.com) for the user.
 
 ## Overview
 
