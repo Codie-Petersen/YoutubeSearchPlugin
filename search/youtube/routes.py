@@ -157,7 +157,7 @@ def info():
             "creator": "Codie Petersen",
             "name": "ProdigiLink - Video Search",
             "version": "1.0.0",
-            "contact": "codie@asteres-technologies.com"
+            "contact": "prodigilink@gmail.com"
         }
     }
     return json.dumps(help_json)
