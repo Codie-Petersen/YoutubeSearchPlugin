@@ -95,7 +95,7 @@ async def search_videos(search, limit=5, region="US", language="en", video=None)
 async def get_promptate_ad(user_id):
     """
     Gets an ad from Promptate.
-    user_id: The user ID of the user to get the ad for.
+    user_id: The user ID of the user to get the ad for. (Or session ID)
 
     These are hardcoded, but in the future you should register with Promptate and get your
     own and store them in an env or some other config method of your choice.

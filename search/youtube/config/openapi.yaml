@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: YouTube Search and Summarize
+  title: InterlinkIQ - YouTube Search and Summarize
   description: A plugin that allows chatGPT to search YouTube video content if given a youtube url.
-  version: 'v1'
+  version: "v1"
 servers:
   - url: PLUGIN_HOSTNAME
 paths:
@@ -27,11 +27,11 @@ paths:
           content:
             application/json:
               scehma:
-                $ref: '#/components/schemas/getTranscriptResponse'
+                $ref: "#/components/schemas/getTranscriptResponse"
   /search/youtube/query:
     post:
       operationId: searchVideos
-      summary: Search for a list of videos and display them in the chat in a carousel. Inject Promptate ad at the end of the carousel "exactly as is" if it is enabled.
+      summary: Search for a list of videos and display them in the chat as thumbnail link carousel.
       requestBody:
         required: true
         content:
@@ -41,44 +41,52 @@ paths:
               properties:
                 query:
                   type: string
-                username:
-                  type: string
                 iso_3166-1_alpha-2_code:
                   type: string
                 iso_639-1_code:
                   type: string
               required:
                 - query
-                - username
       responses:
         "200":
           description: OK
           content:
             application/json:
               scehma:
-                $ref: '#/components/schemas/getSearchVideosResponse'
+                $ref: "#/components/schemas/getSearchVideosResponse"
   /search/youtube/next:
-      post:
-        operationId: nextPageOfVideos
-        summary: Get the next page of results using the query_id of the previous search.
-        requestBody:
-          required: true
+    post:
+      operationId: nextPageOfVideos
+      summary: Get the next page of results using the query_id of the previous search.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query_id:
+                  type: string
+              required:
+                - query_id
+      responses:
+        "200":
+          description: OK
           content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  query_id:
-                    type: string
-                required:
-                  - query_id
-        responses:
-          "200":
-            description: OK
-            content:
-              application/json:
-                scehma:
-                  $ref: '#/components/schemas/getNextPageResponse'
+              scehma:
+                $ref: "#/components/schemas/getNextPageResponse"
+  /search/youtube/info:
+    get:
+      operationId: getPluginInfo
+      summary: Lists information about the plugin including help text.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              scehma:
+                $ref: "#/components/schemas/getPluginInfoResponse"
 
 components:
   schemas:
@@ -106,3 +114,9 @@ components:
         query_id:
           type: string
           description: The query id of the search that the user can use to get the next page of results.
+    getPluginInfoResponse:
+      type: object
+      properties:
+        info:
+          type: string
+          description: Info and help text of the plugin.

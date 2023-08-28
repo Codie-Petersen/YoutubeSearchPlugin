@@ -50,7 +50,7 @@ def get_youtube_id(url):
 def create_description(snippet):
     '''
     Youtube returns a description snippet which is a list of text with formatting. This function
-    creates an unformmated description from the snippet.
+    creates an unformatted description from the snippet.
     snippet: The descriptionSnippet from the video search result.
     '''
     description = ""

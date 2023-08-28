@@ -1,6 +1,6 @@
 {
     "schema_version": "v1",
-    "name_for_human": "YouTube Search and Summarize.",
+    "name_for_human": "InterlinkIQ - Video Search",
     "name_for_model": "youtube",
     "description_for_human": "A plugin that can let chatGPT search for and summarize YouTube videos.",
     "description_for_model": "A plugin to search for YouTube videos or get the transcripts for a video if given a url.",
@@ -13,6 +13,6 @@
       "is_user_authenticated": false
     },
     "logo_url": "PLUGIN_HOSTNAME/search/youtube/logo.png",
-    "contact_email": "no_contact_yet@example.com",
+    "contact_email": "codie@asteres-technologies.com",
     "legal_info_url": "https://www.asteres-technologies.com"
   }
