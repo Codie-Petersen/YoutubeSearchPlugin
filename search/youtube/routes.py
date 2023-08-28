@@ -155,7 +155,7 @@ def info():
             },
             "description": "This plugin lets you search YouTube for videos and get the raw transcript of a video for summarization.",
             "creator": "Codie Petersen",
-            "name": "InterlinkIQ - YouTube Search and Summarize",
+            "name": "ProdigiLink - Video Search",
             "version": "1.0.0",
             "contact": "codie@asteres-technologies.com"
         }
