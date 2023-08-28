@@ -1,8 +1,8 @@
 {
     "schema_version": "v1",
-    "name_for_human": "InterlinkIQ - Video Search",
+    "name_for_human": "ProdigiLink - Video Search",
     "name_for_model": "youtube",
-    "description_for_human": "A plugin that can let chatGPT search for and summarize YouTube videos.",
+    "description_for_human": "A plugin that can let ChatGPT search for and summarize YouTube videos.",
     "description_for_model": "A plugin to search for YouTube videos or get the transcripts for a video if given a url.",
     "auth": {
       "type": "none"
