@@ -153,9 +153,9 @@ def info():
                     "query_id": "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
                 }
             },
-            "description": "This plugin lets you search YouTube for videos and get the raw transcript of a video for summarization.",
+            "description": "This ProdigiLink plugin lets you search YouTube for videos and get the raw transcript of a video for summarization.",
             "creator": "Codie Petersen",
-            "name": "ProdigiLink - Video Search",
+            "name": "ProdigiLink Video",
             "version": "1.0.0",
             "contact": "prodigilink@gmail.com"
         }
