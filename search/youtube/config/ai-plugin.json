@@ -2,8 +2,8 @@
     "schema_version": "v1",
     "name_for_human": "ProdigiLink Video",
     "name_for_model": "youtube",
-    "description_for_human": "A ProdigiLink plugin that can let ChatGPT search for and summarize YouTube videos.",
-    "description_for_model": "A plugin to search for YouTube videos or get the transcripts for a video if given a url.",
+    "description_for_human": "A ProdigiLink service that allows you to search for and summarize YouTube videos.",
+    "description_for_model": "A service to search for YouTube videos or get the transcripts for a video if given a url.",
     "auth": {
       "type": "none"
     },

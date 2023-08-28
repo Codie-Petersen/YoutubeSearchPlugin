@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: ProdigiLink Video
-  description: A ProdigiLink plugin that allows ChatGPT to search YouTube video content if given a youtube url.
+  description: A service to search for YouTube videos or get the transcripts for a video if given a url.
   version: "v1"
 servers:
   - url: PLUGIN_HOSTNAME
