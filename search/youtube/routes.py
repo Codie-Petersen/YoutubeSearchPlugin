@@ -12,6 +12,7 @@ import threading
 
 BASE_ROUTE = "/search/youtube"
 CONFIG_ROUTE = "./search/youtube/config"
+TESTING = True
 
 # A dictionary of VideoSearch objects from youtubesearchpython.
 # Object is created when a search is started.
@@ -81,6 +82,9 @@ async def query():
     except Exception as e:
         ad = {"error": "A server error occured while getting ad.", "trace": str(e)}
     
+    if TESTING:
+        return json.dumps({"videos": videos, "query_id": query_id})
+
     return json.dumps({"videos": videos, "query_id": query_id, "prompt_sponsor": ad})
 
 
@@ -115,6 +119,9 @@ async def next_page():
         ad = None
         active_queries[query_id]["ad_count"] += 1
 
+    if TESTING:
+        return json.dumps({"videos": videos, "query_id": query_id})
+    
     return json.dumps({"videos": videos, "query_id": query_id, "prompt_sponsor": ad})
 
 @app.route(f"{BASE_ROUTE}/info", methods=["GET"])
