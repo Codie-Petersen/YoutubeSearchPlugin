@@ -1,18 +1,18 @@
-import tiktoken as tk
+# import tiktoken as tk
 from urllib.parse import urlparse
 import requests
 import re
 
 ENCODING_MODEL = "text-davinci-003"
 
-def get_tokens(text: str) -> list and int:
-    '''
-    Returns a list of tokens and the number of tokens in the text.
-    text: The text to tokenize.
-    '''
-    encoder = tk.encoding_for_model(ENCODING_MODEL)
-    tokens = encoder.encode(text)
-    return tokens, len(tokens)
+# def get_tokens(text: str) -> list and int:
+#     '''
+#     Returns a list of tokens and the number of tokens in the text.
+#     text: The text to tokenize.
+#     '''
+#     encoder = tk.encoding_for_model(ENCODING_MODEL)
+#     tokens = encoder.encode(text)
+#     return tokens, len(tokens)
 
 #Get the YouTube ID from a YouTube URL.
 #TODO: Add support for shortened YouTube URLs and check if the URL is valid.
