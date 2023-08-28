@@ -177,7 +177,7 @@ async def plugin_manifest():
     filename = f"{CONFIG_ROUTE}/ai-plugin.json"
     with open(filename) as file:
         text = file.read()
-        text = text.replace("PLUGIN_HOSTNAME", f"http://{host}")
+        text = text.replace("PLUGIN_HOSTNAME", f"https://{host}")
         return quart.Response(text, mimetype="application/json")
 
 
@@ -188,7 +188,7 @@ async def openapi_specification():
     filename = f"{CONFIG_ROUTE}/openapi.yaml"
     with open(filename) as file:
         text = file.read()
-        text = text.replace("PLUGIN_HOSTNAME", f"http://{host}")
+        text = text.replace("PLUGIN_HOSTNAME", f"https://{host}")
         return quart.Response(text, mimetype="text/yaml")
 
 
