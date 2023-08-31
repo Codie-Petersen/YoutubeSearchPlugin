@@ -12,7 +12,7 @@ import threading
 
 BASE_ROUTE = "/search/youtube"
 CONFIG_ROUTE = "./search/youtube/config"
-TESTING = True
+TESTING = False
 
 # A dictionary of VideoSearch objects from youtubesearchpython.
 # Object is created when a search is started.
