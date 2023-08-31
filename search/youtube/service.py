@@ -108,5 +108,4 @@ async def get_promptate_ad(user_id):
     headers = {"Authorization": f"Bearer {developer_token}", "OpenAI-User-ID": user_id}
     ad = requests.get(f"https://ads.promptate.com/getad/{plugin_name}", headers=headers).json()["message"]
 
-    return None
     return ad
