@@ -9,10 +9,10 @@
     },
     "api": {
       "type": "openapi",
-      "url": "PLUGIN_HOSTNAME/search/youtube/openapi.yaml",
+      "url": "http://localhost:5000/search/youtube/openapi.yaml",
       "is_user_authenticated": false
     },
-    "logo_url": "PLUGIN_HOSTNAME/search/youtube/logo.png",
+    "logo_url": "http://localhost:5000/search/youtube/logo.png",
     "contact_email": "prodigilink@gmail.com",
     "legal_info_url": "https://raw.githubusercontent.com/Codie-Petersen/YoutubeSearchPlugin/main/LICENSE"
   }

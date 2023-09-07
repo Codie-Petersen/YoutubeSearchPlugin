@@ -4,7 +4,7 @@ info:
   description: A service to search for YouTube videos or get the transcripts for a video if given a url.
   version: "v1"
 servers:
-  - url: PLUGIN_HOSTNAME
+  - url: http://localhost:5000
 paths:
   /search/youtube/transcript:
     post:

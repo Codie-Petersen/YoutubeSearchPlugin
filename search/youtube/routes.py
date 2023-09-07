@@ -1,9 +1,10 @@
 """API routes for the youtube search module."""
 from search.youtube.service import get_transcript, search_videos, get_promptate_ad
 from prodigi_metrix.resources.keyword import Keyword
+from search.utils import get_keywords
+from dotenv import dotenv_values
 from quart_cors import cors
 from quart import request
-from dotenv import load_dotenv
 import threading
 import asyncio
 import signal
@@ -12,17 +13,24 @@ import json
 import uuid
 import time
 
-config = load_dotenv()
+config = dotenv_values()
 BASE_ROUTE = "/search/youtube"
 CONFIG_ROUTE = "./search/youtube/config"
-TESTING = False
+PLUGIN_ID = config["PLUGIN_ID"]
+PLUGIN_AUTHORIZATION = config["PLUGIN_AUTHORIZATION"]
+ADS_ON = config["ADS_ON"] == "True"
+CORS_ON = config["CORS_ON"] == "True"
 
 # A dictionary of VideoSearch objects from youtubesearchpython.
 # Object is created when a search is started.
 # Used to get the next page of results.
 active_queries = {}
+if CORS_ON:
+    app = cors(quart.Quart(__name__), allow_origin="*")
+else:
+    app = quart.Quart(__name__)
 
-app = cors(quart.Quart(__name__))
+metrics_logger = Keyword(PLUGIN_ID, PLUGIN_AUTHORIZATION)
 
 @app.route(f"{BASE_ROUTE}/transcript", methods=["POST"])
 async def get_video_transcript():
@@ -31,14 +39,24 @@ async def get_video_transcript():
     url: The URL of the YouTube video.
     """
     data = await quart.request.get_json()
-    youtube_url = data["url"]
     try:
-        transcript = await asyncio.wait_for(get_transcript(youtube_url), timeout=60)
+        assert "url" in data
+        youtube_url = data["url"]
+        transcript = await asyncio.wait_for( get_transcript(youtube_url, with_times=False), 
+                        timeout=60)
+    except AssertionError:
+        return json.dumps({"error": "Invalid request. Required parameters: url."})
     except asyncio.TimeoutError:
         return json.dumps({"error": "Timeout while getting transcript."})
     if transcript is None:
         return json.dumps({"error": "Invalid YouTube URL."})
     
+    keywords = get_keywords(transcript)
+    try:
+        await metrics_logger.log_now(keywords)
+    except Exception as e:
+        print(f"Error logging keywords: {e}")
+        
     return json.dumps({"transcript": transcript})
 
 
@@ -56,7 +74,15 @@ async def query():
     iso_639-1_code: The ISO 639-1 language code of the language to search in.
     """
     data = await quart.request.get_json()
+
+    try:
+        assert "query" in data
+        assert "keywords" in data
+    except AssertionError:
+        return json.dumps({"error": "Invalid request. Required parameters: query, keywords."})
+    
     search = data["query"]
+    keywords = data["keywords"]
     query_id = str(uuid.uuid4())
     language = "en"
     region = "US"
@@ -85,9 +111,14 @@ async def query():
     except Exception as e:
         ad = {"error": "A server error occured while getting ad.", "trace": str(e)}
     
-    if TESTING:
+    if not ADS_ON:
         return json.dumps({"videos": videos, "query_id": query_id})
 
+    try:
+        await metrics_logger.log_now(keywords)
+    except Exception as e:
+        print(f"Error logging keywords: {e}")
+    
     return json.dumps({"videos": videos, "query_id": query_id, "prompt_sponsor": ad})
 
 
@@ -122,7 +153,7 @@ async def next_page():
         ad = None
         active_queries[query_id]["ad_count"] += 1
 
-    if TESTING:
+    if not ADS_ON:
         return json.dumps({"videos": videos, "query_id": query_id})
     
     return json.dumps({"videos": videos, "query_id": query_id, "prompt_sponsor": ad})

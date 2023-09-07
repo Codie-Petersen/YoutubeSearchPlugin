@@ -1,3 +1,4 @@
+from typing import List, Dict, Tuple
 from urllib.parse import urlparse
 from rake_nltk import Rake
 import requests
@@ -43,7 +44,7 @@ def create_description(snippet):
         description += chunk["text"]
     return description
 
-def levenshtein_distance(s1, s2):
+def levenshtein_distance(s1, s2) -> List[List[int]]:
     """
     Return the Levenshtein distance between two strings.
     Levenshtein distance is the number of edits needed to transform 
@@ -71,7 +72,7 @@ def levenshtein_distance(s1, s2):
 
     return dp[m][n]
 
-def clean_extracted(extracted):
+def clean_extracted(extracted) -> List[Tuple[int, str]]:
     """Remove special characters from extracted keywords."""
     cleaned = []
     for i in range(len(extracted)):
@@ -80,7 +81,7 @@ def clean_extracted(extracted):
         cleaned.append((extracted[i][0], text))
     return cleaned
 
-def get_all_distances(extracted):
+def get_all_distances(extracted) -> List[List[int]]:
     """Get the Levenshtein distance between each keyword."""
     #Better results in sibling dictionary if we start with shorter keywords.
     extracted.reverse() 
@@ -102,7 +103,7 @@ def get_all_distances(extracted):
         distances.append(_distances)
     return distances
 
-def get_siblings_dictionary(extracted, distances, leven_threshold=0.5):
+def get_siblings_dictionary(extracted, distances, leven_threshold=0.5) -> Dict[str, List[str]]:
     """Build a dictionary of keywords and keywords with close Levenshtein distances."""
     sibling_list = {}
     for i in range(len(distances)):
@@ -122,7 +123,7 @@ def get_siblings_dictionary(extracted, distances, leven_threshold=0.5):
 
     return sibling_list
 
-def build_condensed_keywords(extracted, siblings):
+def build_condensed_keywords(extracted, siblings) -> Dict[str, int]:
     """Build a dictionary of keywords and their scores."""
     #The dictionary should not contain siblings of keywords that have been added.
     keywords = {}
@@ -139,7 +140,7 @@ def build_condensed_keywords(extracted, siblings):
     return keywords
 
 
-def best_keyword_candidates(keywords):
+def best_keyword_candidates(keywords) -> list:
     """
     Reduce the keyword dictionary down to simple phrases and scores higher than 2.
     Then grabs the top 5 keywords by score.
@@ -152,7 +153,7 @@ def best_keyword_candidates(keywords):
 
     return selected[:5]
 
-def get_keywords(text):
+def get_keywords(text) -> list:
     """Get keywords from a text with the a modified RAKE algorithm."""
     rake = Rake()
     rake.extract_keywords_from_text(text)
