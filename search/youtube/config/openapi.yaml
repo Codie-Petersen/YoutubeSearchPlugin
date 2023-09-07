@@ -41,12 +41,18 @@ paths:
               properties:
                 query:
                   type: string
+                keywords:
+                  type: list
+                  items:
+                    type: string
+                  description: A list of up to 5 keywords generated from the query.
                 iso_3166-1_alpha-2_code:
                   type: string
                 iso_639-1_code:
                   type: string
               required:
                 - query
+                - keywords
       responses:
         "200":
           description: OK

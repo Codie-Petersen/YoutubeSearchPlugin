@@ -1,15 +1,18 @@
 """API routes for the youtube search module."""
 from search.youtube.service import get_transcript, search_videos, get_promptate_ad
-from quart import request
+from prodigi_metrix.resources.keyword import Keyword
 from quart_cors import cors
+from quart import request
+from dotenv import load_dotenv
+import threading
 import asyncio
 import signal
 import quart
 import json
 import uuid
 import time
-import threading
 
+config = load_dotenv()
 BASE_ROUTE = "/search/youtube"
 CONFIG_ROUTE = "./search/youtube/config"
 TESTING = False
