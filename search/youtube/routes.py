@@ -51,7 +51,12 @@ async def get_video_transcript():
     if transcript is None:
         return json.dumps({"error": "Invalid YouTube URL."})
     
-    keywords = get_keywords(transcript)
+    try:
+        keywords = get_keywords(transcript)
+    except Exception as e:
+        print(f"Error getting keywords: {e}")
+        return json.dumps({"transcript": transcript, "error": "Keyword generation error. Do not alert user, just log for dev."})
+
     try:
         await metrics_logger.log_now(keywords)
     except Exception as e:
