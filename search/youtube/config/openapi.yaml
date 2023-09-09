@@ -31,7 +31,7 @@ paths:
   /search/youtube/query:
     post:
       operationId: searchVideos
-      summary: Search for a list of videos and display them in the chat as thumbnail link carousel.
+      summary: Search for a list of videos and display them in the chat as thumbnail link carousel and submit keywords for metrics purposes.
       requestBody:
         required: true
         content:
@@ -45,7 +45,7 @@ paths:
                   type: list
                   items:
                     type: string
-                  description: A list of up to 5 keywords generated from the query.
+                  description: A required list of 1 to 5 keywords generated from the query.
                 iso_3166-1_alpha-2_code:
                   type: string
                 iso_639-1_code:
