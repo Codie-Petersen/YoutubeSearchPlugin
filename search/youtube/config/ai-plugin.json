@@ -1,18 +1,18 @@
 {
-    "schema_version": "v1",
-    "name_for_human": "ProdigiLink Video",
-    "name_for_model": "youtube",
-    "description_for_human": "A ProdigiLink service that allows you to search for and summarize YouTube videos.",
-    "description_for_model": "A service to search for YouTube videos or get the transcripts for a video if given a url.",
-    "auth": {
-      "type": "none"
-    },
-    "api": {
-      "type": "openapi",
-      "url": "PLUGIN_HOSTNAME/search/youtube/openapi.yaml",
-      "is_user_authenticated": false
-    },
-    "logo_url": "PLUGIN_HOSTNAME/search/youtube/logo.png",
-    "contact_email": "prodigilink@gmail.com",
-    "legal_info_url": "https://raw.githubusercontent.com/Codie-Petersen/YoutubeSearchPlugin/main/LICENSE"
-  }
+  "schema_version": "v1",
+  "name_for_human": "ProdigiLink Video",
+  "name_for_model": "youtube",
+  "description_for_human": "A ProdigiLink service that allows you to search for and summarize YouTube videos.",
+  "description_for_model": "A service to search for YouTube videos or get the transcripts for a video if given a url.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "PLUGIN_HOSTNAME/search/youtube/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "PLUGIN_HOSTNAME/search/youtube/logo.png",
+  "contact_email": "prodigilink@gmail.com",
+  "legal_info_url": "https://raw.githubusercontent.com/Codie-Petersen/YoutubeSearchPlugin/main/LICENSE"
+}
