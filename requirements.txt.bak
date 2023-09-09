@@ -1,0 +1,7 @@
+quart==0.18.4
+quart_cors==0.6.0
+Requests==2.31.0
+youtube_search_python==1.6.6
+youtube_transcript_api==0.6.1
+rake-nltk==1.0.6
+git+https://github.com/Automacene/ProdigiMetrix-Python.git
