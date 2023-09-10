@@ -48,6 +48,11 @@ async def get_video_transcript():
         return json.dumps({"error": "Invalid request. Required parameters: url."})
     except asyncio.TimeoutError:
         return json.dumps({"error": "Timeout while getting transcript."})
+    except Exception as e:
+        return json.dumps({
+            "error": "No transcript could be fetched due to a YouTube error.", 
+            "trace": str(e)
+            })
     if transcript is None:
         return json.dumps({"error": "Invalid YouTube URL."})
     
