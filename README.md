@@ -2,6 +2,8 @@
 
 This is a project of mine that I am now using to showcase the usage of [Promptate](https://www.promptate.com) for generating ads in a YouTube search and summarize OpenAI Plugin. It provides an API to search for YouTube videos and retrieve their transcripts. It fetches ads from [Promptate](https://www.promptate.com) for the user.
 
+Additionally, I have also integrated another one of my projects [ProdigiMetrix](https://github.com/Automacene/ProdigiMetrix-Python) into it. It tracks basic metrics like time and keywords when routes are used. If you want this functionality in yours, follow the [credentials](https://github.com/Automacene/ProdigiMetrix-Python/tree/main#obtaining-credentials) section in the readme to get your own account and start capturing valuable user insights.
+
 ## Overview
 
 The YouTube search and summarize plugin is built using Python and Quart framework for asynchronous web serving. The service allows users to perform the following actions:
@@ -13,6 +15,8 @@ The YouTube search and summarize plugin is built using Python and Quart framewor
 3. **Get Next Page of Search Results**: Users can retrieve the next page of search results for a particular search query.
 
 4. **Fetch Ads from [Promptate](https://www.promptate.com)**: The service integrates with [Promptate](https://www.promptate.com) to fetch relevant ads for the users.
+
+5. **Track Keywords with [ProdigiMetrix](https://github.com/Automacene/ProdigiMetrix-Python)**: You can track prompt times, keywords, and overall activity using the [ProdigiMetrix Service](https://github.com/Automacene/ProdigiMetrix-Python).
 
 ## Getting Started
 
@@ -45,7 +49,7 @@ The service provides several API endpoints that can be accessed to interact with
 ### Search YouTube Videos
 
 - Endpoint: `POST /search/youtube/query`
-- Input: JSON body with `query`, `username`, `iso_3166-1_alpha-2_code`, and `iso_639-1_code` fields.
+- Input: JSON body with `query`, `keywords`, `iso_3166-1_alpha-2_code`, and `iso_639-1_code` fields.
 - Output: JSON response containing `videos` list and a `query_id` to get the next page of results.
 
 ### Get Next Page of Results
@@ -69,6 +73,8 @@ The service includes a function `get_promptate_ad(user_id)` that fetches ads fro
 
 You can customize the service according to your requirements. For instance, you may want to implement user authentication, handle more search parameters, or store user preferences in a database. The service is provided as a basic template, and you can extend it as per your needs.
 
+You can also customize the way the keywords are being tracked with [ProdigiMetrix](https://github.com/Automacene/ProdigiMetrix-Python). Right now keywords are submitted, but maybe your plugin doesn't need that. Maybe you want to track which feaure is being used. To do this, just submit a single keyword like **search**, **next**, or **transcript**, to find out what users are using.
+
 Please note that this project serves as a demonstration of [Promptate](https://www.promptate.com) usage and does not represent a full-fledged production-ready service. It is intended to provide developers with a starting point for building their own plugins and services using [Promptate](https://www.promptate.com) and YouTube APIs.
 
 ## License
@@ -85,9 +91,12 @@ This project uses the following third-party libraries:
 - `Quart`: A Python asynchronous web framework.
 - `Quart-CORS`: A Quart extension for handling CORS.
 - `tiktoken`: A Python library to count the number of tokens in a text string.
+- [prodigi_metrix](https://github.com/Automacene/ProdigiMetrix-Python): My metrics tracking package for AI projects.
 
 Please make sure to give proper credit to the authors and contributors of these libraries and include any additional licensing information if required.
 
 ## Note
 
 The integration with [Promptate](https://www.promptate.com) is for demonstration purposes and uses hardcoded values. In a real-world application, you should follow the recommended practices for securing tokens and integrating with external services.
+
+The integration with [ProdigiMetrix](https://github.com/Automacene/ProdigiMetrix-Python) is for demonstration purposes and uses .env variables meant for this project only. If you need this functionality, follow the instructions in the [credentials](https://github.com/Automacene/ProdigiMetrix-Python/tree/main#obtaining-credentials) section of the readme.
